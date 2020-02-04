@@ -13,6 +13,7 @@ import codigo.formas.Estrella;
 import codigo.formas.Pentagono;
 import codigo.formas.Triangulo;
 import codigo.formas.creaRecta;
+import codigo.formas.Pipeta;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -34,6 +35,7 @@ public class VentanaPaint extends javax.swing.JFrame {
     
     DibujoLibre dibujoLibre = null;
     creaRecta recta = null;
+    Pipeta pipeta = null;
     Forma miForma = null;
     String grosor = "5";
     String goma = "10";
@@ -90,6 +92,8 @@ public class VentanaPaint extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jDialog2 = new javax.swing.JDialog();
         jFileChooser1 = new javax.swing.JFileChooser();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
         Lienzo = new javax.swing.JPanel();
         panelColores1 = new codigo.PanelColores();
         herramientas1 = new codigo.Herramientas();
@@ -158,6 +162,10 @@ public class VentanaPaint extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane1.setViewportView(jTextArea2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         Lienzo.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -182,7 +190,7 @@ public class VentanaPaint extends javax.swing.JFrame {
         );
         LienzoLayout.setVerticalGroup(
             LienzoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 333, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         jButton1.setText("Más colores");
@@ -246,7 +254,7 @@ public class VentanaPaint extends javax.swing.JFrame {
                             .addComponent(Lienzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGap(61, 61, 61)
                         .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -278,9 +286,11 @@ public class VentanaPaint extends javax.swing.JFrame {
             case 6 : recta.dibujate(bufferGraphics, evt.getX(), evt.getY(), grosor); 
                     break;
             
+            case 7 :
+                    break;
             case 11 : dibujoLibre.dibujate(bufferGraphics2, evt.getX(), evt.getY(), goma); 
                     break;
-            
+                  
             case 256: miForma.dibujate(bufferGraphics, evt.getX(), evt.getY(), grosor); 
                     break;
             
@@ -318,6 +328,11 @@ public class VentanaPaint extends javax.swing.JFrame {
                     dibujoLibre.dibujate(bufferGraphics, evt.getX(), evt.getY(), goma);
                     break;
                     
+            case 12 : pipeta = new Pipeta(evt.getX(), evt.getY(),buffer2);
+                 panelColores1.colorSeleccionado=pipeta.copiarColor(evt.getX(), evt.getY(), buffer2,  panelColores1.colorSeleccionado);
+                 panelColores1.colorActual.setBackground(panelColores1.colorSeleccionado);
+                break;
+                
             case 256 : miForma = new Estrella(evt.getX(), evt.getY(), 256, panelColores1.colorSeleccionado , herramientas1.relleno);
                      miForma.dibujate(bufferGraphics, evt.getX(), evt.getY(), grosor);
                     break; 
@@ -343,6 +358,7 @@ public class VentanaPaint extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         jDialog1.setVisible(false);
         panelColores1.colorSeleccionado = jColorChooser1.getColor();
+        panelColores1.colorActual.setBackground(jColorChooser1.getColor());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -368,7 +384,8 @@ public class VentanaPaint extends javax.swing.JFrame {
        grosor = Integer.toString(jSlider2.getValue() / 5) + "f";
        goma = Integer.toString(jSlider2.getValue() / 5) + "f";
     }//GEN-LAST:event_jSlider2StateChanged
-
+    
+   
 
     /**
      * @param args the command line arguments
@@ -419,7 +436,9 @@ public class VentanaPaint extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSlider jSlider2;
+    private javax.swing.JTextArea jTextArea2;
     private codigo.PanelColores panelColores1;
     // End of variables declaration//GEN-END:variables
 }
