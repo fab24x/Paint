@@ -8,6 +8,7 @@ package codigo;
 import codigo.formas.DibujoLibre;
 import codigo.formas.Circulo;
 import codigo.formas.Cuadrado;
+import codigo.formas.Escribe;
 import codigo.formas.Forma;
 import codigo.formas.Estrella;
 import codigo.formas.Pentagono;
@@ -40,6 +41,11 @@ public class VentanaPaint extends javax.swing.JFrame {
     String grosor = "5";
     String goma = "10";
     
+    String texto = "";
+    int Xtex = 0;
+    int Ytex = 0;
+    int tamLetra=50;
+    Escribe _texto = null;
     /**
      * Creates new form VentanaPaint
      */
@@ -47,6 +53,7 @@ public class VentanaPaint extends javax.swing.JFrame {
         initComponents();
         inicializaBuffers();
         jDialog1.setSize(640, 450);
+        frase.setSize(420, 69);
     }
 
     private void inicializaBuffers(){
@@ -94,6 +101,10 @@ public class VentanaPaint extends javax.swing.JFrame {
         jFileChooser1 = new javax.swing.JFileChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea2 = new javax.swing.JTextArea();
+        frase = new javax.swing.JDialog();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton4 = new javax.swing.JButton();
         Lienzo = new javax.swing.JPanel();
         panelColores1 = new codigo.PanelColores();
         herramientas1 = new codigo.Herramientas();
@@ -165,6 +176,37 @@ public class VentanaPaint extends javax.swing.JFrame {
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
         jScrollPane1.setViewportView(jTextArea2);
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane2.setViewportView(jTextArea1);
+
+        jButton4.setText("SUBMIT");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fraseLayout = new javax.swing.GroupLayout(frase.getContentPane());
+        frase.getContentPane().setLayout(fraseLayout);
+        fraseLayout.setHorizontalGroup(
+            fraseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fraseLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton4)
+                .addGap(22, 22, 22))
+        );
+        fraseLayout.setVerticalGroup(
+            fraseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fraseLayout.createSequentialGroup()
+                .addGroup(fraseLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 41, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -254,7 +296,7 @@ public class VentanaPaint extends javax.swing.JFrame {
                             .addComponent(Lienzo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addGap(27, 27, 27)
                         .addComponent(jSlider2, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -345,6 +387,12 @@ public class VentanaPaint extends javax.swing.JFrame {
         else if (herramientas1.formaElegida == 6){
             recta.dibujate(bufferGraphics2, evt.getX(), evt.getY(), grosor);
         }
+        else if (herramientas1.formaElegida == 7){
+            frase.setLocation(evt.getX(), evt.getY());
+            frase.setVisible(true);
+            Xtex=evt.getX();
+            Ytex=evt.getY();
+        }
     }//GEN-LAST:event_LienzoMouseReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -384,6 +432,17 @@ public class VentanaPaint extends javax.swing.JFrame {
        grosor = Integer.toString(jSlider2.getValue() / 5) + "f";
        goma = Integer.toString(jSlider2.getValue() / 5) + "f";
     }//GEN-LAST:event_jSlider2StateChanged
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    texto = jTextArea1.getText();
+        frase.setVisible(false);
+        _texto = new Escribe(Xtex, Ytex, texto);
+        _texto.escribe(jpanelGraphics, Xtex, Ytex, texto, panelColores1.colorSeleccionado,tamLetra);
+        _texto.escribe(bufferGraphics, Xtex, Ytex, texto, panelColores1.colorSeleccionado,tamLetra);
+        _texto.escribe(bufferGraphics2, Xtex, Ytex, texto, panelColores1.colorSeleccionado,tamLetra);
+        jpanelGraphics.drawImage(buffer2, 0, 0, null);
+        jTextArea1.setText("");
+    }//GEN-LAST:event_jButton4ActionPerformed
     
    
 
@@ -424,10 +483,12 @@ public class VentanaPaint extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Lienzo;
+    private javax.swing.JDialog frase;
     private codigo.Herramientas herramientas1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JColorChooser jColorChooser1;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JDialog jDialog2;
@@ -437,7 +498,9 @@ public class VentanaPaint extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSlider jSlider2;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
     private codigo.PanelColores panelColores1;
     // End of variables declaration//GEN-END:variables
