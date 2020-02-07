@@ -27,7 +27,7 @@ public class Escribe {
     }
     
     public void escribe(Graphics2D g2,int posX ,int posY,String texto,Color color,int tamañoLetra){
-        Font font = new Font("Comic Sans MS", Font.PLAIN, tamañoLetra);
+        Font font = new Font("TimesRoman", Font.PLAIN, tamañoLetra);
         FontRenderContext frc = new FontRenderContext(null, true, true);
         Rectangle2D bounds = font.getStringBounds(texto, frc);
         g2.setColor(color);
